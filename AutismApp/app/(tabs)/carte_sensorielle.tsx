@@ -29,7 +29,7 @@ export default function TabTwoScreen() {
             fontFamily: Fonts.rounded,
           }}
         >
-          SOS
+          Carte sensorielle
         </ThemedText>
       </ThemedView>
       <ThemedText>
