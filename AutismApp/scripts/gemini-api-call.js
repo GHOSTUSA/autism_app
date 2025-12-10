@@ -18,7 +18,16 @@ export async function makeCallToGemini(text) {
 
     const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
-    const prompt = `Résume moi simpliment avec des mots simples ce text : ${text}`;
+    // Limiter le texte à 250000 caractères pour éviter de dépasser les limites
+    const maxLength = 240000;
+    const truncatedText =
+      text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
+
+    console.log(
+      `Texte original: ${text.length} caractères, texte tronqué: ${truncatedText.length} caractères`
+    );
+
+    const prompt = `Résume moi simplement avec des mots simples ce texte : ${truncatedText}`;
 
     const result = await model.generateContent(prompt);
     const response = await result.response;
