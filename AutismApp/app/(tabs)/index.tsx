@@ -1,5 +1,6 @@
 import { Image } from "expo-image";
-import { Platform, StyleSheet } from "react-native";
+import { Platform, StyleSheet, Dimensions } from "react-native";
+import MapView, { Marker } from "react-native-maps";
 
 import { HelloWave } from "@/components/hello-wave";
 import ParallaxScrollView from "@/components/parallax-scroll-view";
@@ -22,53 +23,53 @@ export default function HomeScreen() {
         <ThemedText type="title">Tessa</ThemedText>
         <HelloWave />
       </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit{" "}
-          <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText>{" "}
-          to see changes. Press{" "}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: "cmd + d",
-              android: "cmd + m",
-              web: "F12",
-            })}
-          </ThemedText>{" "}
-          to open developer tools.
+
+      <ThemedView style={styles.mapContainer}>
+        <ThemedText type="subtitle" style={styles.mapTitle}>
+          Localisation des services
         </ThemedText>
+        <MapView
+          style={styles.map}
+          initialRegion={{
+            latitude: 48.8566,
+            longitude: 2.3522,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
+        >
+          <Marker
+            coordinate={{ latitude: 48.8566, longitude: 2.3522 }}
+            title="Centre de ressources autisme"
+            description="Service d'accompagnement spécialisé"
+            pinColor="red"
+          />
+          <Marker
+            coordinate={{ latitude: 48.8606, longitude: 2.3376 }}
+            title="Centre médical spécialisé"
+            description="Consultations et diagnostics"
+            pinColor="blue"
+          />
+          <Marker
+            coordinate={{ latitude: 48.8529, longitude: 2.3599 }}
+            title="Établissement d'accueil"
+            description="Activités et accompagnement"
+            pinColor="green"
+          />
+        </MapView>
       </ThemedView>
+
       <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">CLIQK</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction
-              title="Action"
-              icon="cube"
-              onPress={() => alert("Action pressed")}
-            />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert("Share pressed")}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert("Delete pressed")}
-              />
-            </Link.Menu>
-          </Link.Menu>
+        <Link href="/multiTextPdf" asChild>
+          <ThemedText type="subtitle" style={styles.linkText}>
+            📄 Extraire texte des PDFs
+          </ThemedText>
         </Link>
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
+        <Link href="/modal" asChild>
+          <ThemedText type="subtitle" style={styles.linkText}>
+            📋 Voir les outils
+          </ThemedText>
+        </Link>
       </ThemedView>
     </ParallaxScrollView>
   );
@@ -79,10 +80,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 8,
+    marginBottom: 20,
   },
   stepContainer: {
-    gap: 8,
+    gap: 16,
     marginBottom: 8,
+    marginTop: 20,
   },
   reactLogo: {
     height: 488,
@@ -90,5 +93,25 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     position: "absolute",
+  },
+  mapContainer: {
+    marginBottom: 20,
+  },
+  mapTitle: {
+    marginBottom: 10,
+    textAlign: "center",
+  },
+  map: {
+    width: Dimensions.get("window").width - 40,
+    height: 300,
+    borderRadius: 10,
+  },
+  linkText: {
+    textAlign: "center",
+    padding: 15,
+    backgroundColor: "rgba(0, 122, 255, 0.1)",
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "rgba(0, 122, 255, 0.3)",
   },
 });

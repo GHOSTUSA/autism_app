@@ -15,6 +15,7 @@ import * as DocumentPicker from "expo-document-picker";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import { extractTextFromPdf } from "../scripts/exctract-text-from-pdf";
+import { makeCallToGemini } from "@/scripts/gemini-api-call";
 
 export default function TextPdfScreen() {
   const [extractedText, setExtractedText] = useState("");
@@ -35,7 +36,9 @@ export default function TextPdfScreen() {
         const file = result.assets[0];
         setFileName(file.name);
 
-        const resulte = await extractTextFromPdf(file.uri);
+        const decodedText = await extractTextFromPdf(file.uri);
+        const resulte = await makeCallToGemini(decodedText);
+
         if (resulte !== null) {
           setExtractedText(resulte);
         }
@@ -73,6 +76,12 @@ export default function TextPdfScreen() {
                 <Text style={styles.buttonText}>Choisir un PDF</Text>
               )}
             </TouchableOpacity>
+
+            <Link href="/multiTextPdf" asChild>
+              <TouchableOpacity style={styles.modalButton}>
+                <Text style={styles.buttonText}>Voir pdf</Text>
+              </TouchableOpacity>
+            </Link>
 
             {extractedText && (
               <TouchableOpacity style={styles.clearButton} onPress={clearText}>
@@ -127,6 +136,14 @@ const styles = StyleSheet.create({
   },
   pickButton: {
     backgroundColor: "#007AFF",
+    paddingHorizontal: 30,
+    paddingVertical: 15,
+    borderRadius: 10,
+    minWidth: 150,
+    alignItems: "center",
+  },
+  modalButton: {
+    backgroundColor: "#34C759",
     paddingHorizontal: 30,
     paddingVertical: 15,
     borderRadius: 10,

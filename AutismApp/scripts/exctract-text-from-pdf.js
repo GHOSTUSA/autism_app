@@ -1,6 +1,4 @@
 import * as FileSystem from "expo-file-system";
-import { makeCallToGemini } from "./gemini-api-call";
-import { makeCallToOpenAI } from "./openia-api-call";
 
 const API_TOKEN = process.env.EXPO_PUBLIC_CONVERT_API_TOKEN;
 
@@ -40,8 +38,6 @@ export async function extractTextFromPdf(uri) {
       bytes[i] = binaryString.charCodeAt(i);
     }
     const decodedText = new TextDecoder("utf-8").decode(bytes);
-
-    makeCallToGemini(decodedText);
 
     return decodedText;
   } catch (error) {
