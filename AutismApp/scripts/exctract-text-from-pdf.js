@@ -1,7 +1,7 @@
 import * as FileSystem from "expo-file-system";
-import { CONFIG } from "../config";
+import { makeCallToGemini } from "./gemini-api-call";
 
-const API_TOKEN = CONFIG.CONVERT_API_TOKEN;
+const API_TOKEN = process.env.EXPO_PUBLIC_CONVERT_API_TOKEN;
 
 export async function extractTextFromPdf(uri) {
   try {
@@ -34,6 +34,8 @@ export async function extractTextFromPdf(uri) {
 
     // Décodage base64 → texte
     const decodedText = atob(base64Txt);
+
+    makeCallToGemini(decodedText);
 
     return decodedText;
   } catch (error) {
