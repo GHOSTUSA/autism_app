@@ -11,7 +11,7 @@ import { Link } from "expo-router";
 export default function HomeScreen() {
   return (
     <ParallaxScrollView
-      headerBackgroundColor={{ light: "#A1CEDC", dark: "#1D3D47" }}
+      headerBackgroundColor={{ light: "#b5d2ea", dark: "#333333" }}
       headerImage={
         <Image
           source={require("@/assets/images/MainStyleIndex.png")}
@@ -109,9 +109,10 @@ const styles = StyleSheet.create({
   linkText: {
     textAlign: "center",
     padding: 15,
-    backgroundColor: "rgba(0, 122, 255, 0.1)",
+    backgroundColor: "white",
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: "rgba(0, 122, 255, 0.3)",
+    borderColor: "#333333",
+    color: "#333333",
   },
 });

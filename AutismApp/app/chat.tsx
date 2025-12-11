@@ -27,7 +27,7 @@ export default function ModalScreen() {
               onChangeText={onChangeText}
               value={text}
               placeholder="Tapez votre message..."
-              placeholderTextColor="#999"
+              placeholderTextColor="#333333"
               multiline
             />
           </View>
@@ -50,22 +50,22 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     padding: 15,
-    backgroundColor: "#f8f9fa",
+    backgroundColor: "#b5d2ea",
     borderTopWidth: 1,
-    borderTopColor: "#e9ecef",
+    borderTopColor: "#688196",
   },
   input: {
     backgroundColor: "white",
-    color: "#333",
+    color: "#333333",
     borderRadius: 20,
     paddingHorizontal: 15,
     paddingVertical: 12,
     borderWidth: 1,
-    borderColor: "#ddd",
+    borderColor: "#b5d2ea",
     fontSize: 16,
     minHeight: 44,
     maxHeight: 100,
-    shadowColor: "#000",
+    shadowColor: "#333333",
     shadowOffset: {
       width: 0,
       height: 2,

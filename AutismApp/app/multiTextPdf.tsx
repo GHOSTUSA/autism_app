@@ -357,7 +357,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   pickButton: {
-    backgroundColor: "#007AFF",
+    backgroundColor: "#ebb7b5",
     paddingHorizontal: 30,
     paddingVertical: 15,
     borderRadius: 10,
@@ -365,7 +365,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   modalButton: {
-    backgroundColor: "#34C759",
+    backgroundColor: "#ebee99",
     paddingHorizontal: 30,
     paddingVertical: 15,
     borderRadius: 10,
@@ -378,7 +378,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   clearButton: {
-    backgroundColor: "#FF3B30",
+    backgroundColor: "#b5d2ea",
     paddingHorizontal: 20,
     paddingVertical: 15,
     borderRadius: 10,
@@ -397,20 +397,20 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     flex: 1,
-    backgroundColor: "#f9f9f9",
+    backgroundColor: "white",
     borderRadius: 10,
     padding: 15,
     borderWidth: 1,
-    borderColor: "#ddd",
+    borderColor: "#b5d2ea",
   },
   extractedText: {
     fontSize: 14,
     lineHeight: 20,
-    color: "#333",
+    color: "#333333",
   },
   placeholder: {
     fontSize: 14,
-    color: "#999",
+    color: "#333333",
     fontStyle: "italic",
     textAlign: "center",
     marginTop: 50,
@@ -433,7 +433,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   selectionButton: {
-    backgroundColor: "#007AFF",
+    backgroundColor: "#ebb7b5",
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 6,
@@ -456,7 +456,7 @@ const styles = StyleSheet.create({
     padding: 10,
     alignItems: "center",
     justifyContent: "center",
-    shadowColor: "#000",
+    shadowColor: "#688196",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -466,8 +466,8 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   selectedPdfIcon: {
-    backgroundColor: "#E3F2FD",
-    borderColor: "#007AFF",
+    backgroundColor: "#b5d2ea",
+    borderColor: "#ebb7b5",
     borderWidth: 2,
   },
   pdfIconContent: {
@@ -491,7 +491,7 @@ const styles = StyleSheet.create({
     right: -6,
     width: 20,
     height: 20,
-    backgroundColor: "#34C759",
+    backgroundColor: "#ebee99",
     borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
@@ -499,28 +499,28 @@ const styles = StyleSheet.create({
     borderColor: "white",
   },
   checkmark: {
-    color: "white",
+    color: "#333333",
     fontSize: 12,
     fontWeight: "bold",
   },
   pdfIconName: {
     fontSize: 10,
     textAlign: "center",
-    color: "#333",
+    color: "#333333",
     lineHeight: 12,
   },
   selectedPdfInfo: {
-    backgroundColor: "#f0f8ff",
+    backgroundColor: "#b5d2ea",
     padding: 12,
     borderRadius: 8,
     marginBottom: 15,
     borderLeftWidth: 4,
-    borderLeftColor: "#007AFF",
+    borderLeftColor: "#ebb7b5",
   },
   selectedPdfTitle: {
     fontSize: 14,
     fontWeight: "600",
-    color: "#007AFF",
+    color: "#333333",
   },
   selectedPdfName: {
     fontSize: 16,
@@ -544,7 +544,7 @@ const styles = StyleSheet.create({
     color: "#666",
   },
   geminiButton: {
-    backgroundColor: "#4285F4",
+    backgroundColor: "#ebb7b5",
     paddingHorizontal: 20,
     paddingVertical: 12,
     borderRadius: 25,
@@ -556,7 +556,7 @@ const styles = StyleSheet.create({
     minWidth: 180,
   },
   geminiButtonDisabled: {
-    backgroundColor: "#9E9E9E",
+    backgroundColor: "#b5d2ea",
   },
   geminiButtonText: {
     color: "white",
@@ -564,18 +564,18 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   geminiResponseContainer: {
-    backgroundColor: "#F3E5F5",
+    backgroundColor: "white",
     padding: 15,
     borderRadius: 12,
     marginBottom: 15,
     borderWidth: 1,
-    borderColor: "#CE93D8",
+    borderColor: "#b5d2ea",
     maxHeight: 200,
   },
   geminiResponseTitle: {
     fontSize: 16,
     fontWeight: "600",
-    color: "#7B1FA2",
+    color: "#333333",
     marginBottom: 10,
   },
   geminiResponseScroll: {
@@ -584,6 +584,6 @@ const styles = StyleSheet.create({
   geminiResponseText: {
     fontSize: 14,
     lineHeight: 20,
-    color: "#4A148C",
+    color: "#333333",
   },
 });

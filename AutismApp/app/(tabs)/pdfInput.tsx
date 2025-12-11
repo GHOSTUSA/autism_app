@@ -16,12 +16,12 @@ import { Fonts } from "@/constants/theme";
 import { makeCallToGemini } from "../../scripts/gemini-api-call";
 
 const moods = [
-  { id: 1, name: "😊 Joyeux", emoji: "😊", color: "#FFD700" },
-  { id: 2, name: "😔 Triste", emoji: "😔", color: "#87CEEB" },
-  { id: 3, name: "😤 Frustré", emoji: "😤", color: "#FF6B6B" },
-  { id: 4, name: "😰 Anxieux", emoji: "😰", color: "#DDA0DD" },
-  { id: 5, name: "😴 Fatigué", emoji: "😴", color: "#F0E68C" },
-  { id: 6, name: "😌 Calme", emoji: "😌", color: "#98FB98" },
+  { id: 1, name: "😊 Joyeux", emoji: "😊", color: "#ebee99" },
+  { id: 2, name: "😔 Triste", emoji: "😔", color: "#b5d2ea" },
+  { id: 3, name: "😤 Frustré", emoji: "😤", color: "#ebb7b5" },
+  { id: 4, name: "😰 Anxieux", emoji: "😰", color: "#b5d2ea" },
+  { id: 5, name: "😴 Fatigué", emoji: "😴", color: "#f5f4f2" },
+  { id: 6, name: "😌 Calme", emoji: "😌", color: "#ebee99" },
 ];
 
 const energyLevels = [
@@ -296,19 +296,19 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   personSection: {
-    backgroundColor: "#F8F9FA",
+    backgroundColor: "white",
     padding: 15,
     marginBottom: 20,
     borderRadius: 15,
     borderWidth: 1,
-    borderColor: "#E9ECEF",
+    borderColor: "#b5d2ea",
   },
   personTitle: {
     textAlign: "center",
     marginBottom: 20,
     fontSize: 20,
     fontWeight: "700",
-    color: "#495057",
+    color: "#333333",
   },
   sectionContainer: {
     marginBottom: 20,
@@ -332,6 +332,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "transparent",
     marginBottom: 10,
+    backgroundColor: "white",
   },
   emoji: {
     fontSize: 30,
@@ -347,14 +348,14 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   adviceButton: {
-    backgroundColor: "#007AFF",
+    backgroundColor: "#ebb7b5",
     paddingHorizontal: 30,
     paddingVertical: 15,
     borderRadius: 25,
     marginBottom: 20,
   },
   adviceButtonDisabled: {
-    backgroundColor: "#9E9E9E",
+    backgroundColor: "#688196",
   },
   buttonText: {
     color: "white",
@@ -363,33 +364,34 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   adviceContainer: {
-    backgroundColor: "#F0F8FF",
+    backgroundColor: "white",
     padding: 20,
     borderRadius: 15,
     borderWidth: 1,
-    borderColor: "#B0C4DE",
+    borderColor: "#333333",
     width: "100%",
   },
   adviceTitle: {
     textAlign: "center",
     marginBottom: 15,
-    color: "#4169E1",
+    color: "#333333",
   },
   adviceText: {
     fontSize: 16,
     lineHeight: 24,
     textAlign: "center",
     marginBottom: 20,
+    color: "#333333",
   },
   resetButton: {
-    backgroundColor: "#FF6B6B",
+    backgroundColor: "#ebee99",
     paddingHorizontal: 20,
     paddingVertical: 12,
     borderRadius: 20,
     alignSelf: "center",
   },
   resetButtonText: {
-    color: "white",
+    color: "#333333",
     fontSize: 14,
     fontWeight: "500",
   },
