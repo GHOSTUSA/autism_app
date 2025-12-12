@@ -86,7 +86,7 @@
 
 //       console.log("PDF Asset URI:", asset.localUri);
 
-//       if (!asset.localUri) {
+//       if(!asset.localUri) {
 //         throw new Error("Impossible de charger le fichier PDF");
 //       }
 
