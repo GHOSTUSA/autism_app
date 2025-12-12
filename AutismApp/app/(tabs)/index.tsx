@@ -1,6 +1,9 @@
 import { Image } from "expo-image";
 import { Platform, StyleSheet, Dimensions } from "react-native";
-import MapView, { Marker } from "react-native-maps";
+const MapView =
+  Platform.OS !== "web" ? require("react-native-maps").default : () => null;
+const Marker =
+  Platform.OS !== "web" ? require("react-native-maps").Marker : () => null;
 
 import { HelloWave } from "@/components/hello-wave";
 import ParallaxScrollView from "@/components/parallax-scroll-view";
@@ -28,34 +31,36 @@ export default function HomeScreen() {
         <ThemedText type="subtitle" style={styles.mapTitle}>
           Localisation des services
         </ThemedText>
-        <MapView
-          style={styles.map}
-          initialRegion={{
-            latitude: 48.8566,
-            longitude: 2.3522,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-          }}
-        >
-          <Marker
-            coordinate={{ latitude: 48.8566, longitude: 2.3522 }}
-            title="Centre de ressources autisme"
-            description="Service d'accompagnement spécialisé"
-            pinColor="red"
-          />
-          <Marker
-            coordinate={{ latitude: 48.8606, longitude: 2.3376 }}
-            title="Centre médical spécialisé"
-            description="Consultations et diagnostics"
-            pinColor="blue"
-          />
-          <Marker
-            coordinate={{ latitude: 48.8529, longitude: 2.3599 }}
-            title="Établissement d'accueil"
-            description="Activités et accompagnement"
-            pinColor="green"
-          />
-        </MapView>
+        {Platform.OS !== "web" && (
+          <MapView
+            style={styles.map}
+            initialRegion={{
+              latitude: 48.8566,
+              longitude: 2.3522,
+              latitudeDelta: 0.0922,
+              longitudeDelta: 0.0421,
+            }}
+          >
+            <Marker
+              coordinate={{ latitude: 48.8566, longitude: 2.3522 }}
+              title="Centre de ressources autisme"
+              description="Service d'accompagnement spécialisé"
+              pinColor="red"
+            />
+            <Marker
+              coordinate={{ latitude: 48.8606, longitude: 2.3376 }}
+              title="Centre médical spécialisé"
+              description="Consultations et diagnostics"
+              pinColor="blue"
+            />
+            <Marker
+              coordinate={{ latitude: 48.8529, longitude: 2.3599 }}
+              title="Établissement d'accueil"
+              description="Activités et accompagnement"
+              pinColor="green"
+            />
+          </MapView>
+        )}
       </ThemedView>
 
       <ThemedView style={styles.stepContainer}>

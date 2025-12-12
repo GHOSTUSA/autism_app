@@ -138,7 +138,7 @@ Peux-tu me donner un conseil bienveillant et pratique pour gérer cette situatio
         console.error("Erreur Gemini:", error);
         Alert.alert(
           "Erreur",
-          "Impossible d'obtenir un conseil de Gemini. Vérifiez votre configuration API."
+          "Impossible d'obtenir un conseil. Vérifiez votre configuration API."
         );
       } finally {
         setIsGeminiLoading(false);
@@ -257,7 +257,7 @@ Peux-tu me donner un conseil bienveillant et pratique pour gérer cette situatio
             <ActivityIndicator color="white" size="small" />
           ) : (
             <ThemedText style={styles.buttonText}>
-              🤖 Obtenir un conseil Gemini
+              🤖 Obtenir un conseil
             </ThemedText>
           )}
         </TouchableOpacity>
@@ -265,7 +265,7 @@ Peux-tu me donner un conseil bienveillant et pratique pour gérer cette situatio
         {showAdvice && geminiAdvice && (
           <ThemedView style={styles.adviceContainer}>
             <ThemedText type="subtitle" style={styles.adviceTitle}>
-              Conseil personnalisé de Gemini :
+              Conseil personnalisé de :
             </ThemedText>
             <ThemedText style={styles.adviceText}>{geminiAdvice}</ThemedText>
             <TouchableOpacity

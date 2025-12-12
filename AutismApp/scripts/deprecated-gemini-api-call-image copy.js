@@ -1,9 +1,7 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import * as FileSystem from "expo-file-system/legacy";
 
-// --- Clés d'API (Gardez-les en dehors du code de production ou utilisez un gestionnaire de secrets) ---
 const apiKey = process.env.EXPO_PUBLIC_GEMINI_API_KEY;
-// ---------------------------------------------------------------------------------------------------
 
 console.log(
   "Gemini API Key:",
@@ -12,39 +10,29 @@ console.log(
 
 const genAI = new GoogleGenerativeAI(apiKey);
 
-/**
- * Traite un PDF avec Gemini pour obtenir une réponse directe.
- * @param {string} pdfUri - L'URI du fichier PDF d'entrée (peut être content:// ou file://).
- * @param {string} prompt - Le prompt à envoyer à Gemini (par exemple : "Génère un PDF avec ce contenu").
- * @returns {Promise<{pdfPath: string, fileName: string, message: string, analysis: string}>}
- */
 export async function processPdfWithGemini(
   pdfUri,
   prompt = "Génère un PDF identique à ce document avec exactement le même contenu. ATTENTION TRES IMPORTANT : Retourne le moi sous la forme d'un code python fait avec reportlab."
 ) {
   let fileUri = pdfUri;
-  let tempPath = null; // Pour suivre le chemin temporaire en cas d'URI Android
+  let tempPath = null;
 
   try {
     console.log("Traitement du PDF pour Gemini...");
 
-    // 1. Préparer le fichier PDF pour la lecture
     if (pdfUri.startsWith("content://")) {
-      // Si c'est un URI Android, copier vers le cache d'abord
       const tempFileName = `temp_${Date.now()}.pdf`;
       tempPath = `${FileSystem.cacheDirectory}${tempFileName}`;
       await FileSystem.copyAsync({ from: pdfUri, to: tempPath });
       fileUri = tempPath;
     }
 
-    // 2. Lire le PDF en base64 pour l'envoyer à Gemini
     const pdfBase64 = await FileSystem.readAsStringAsync(fileUri, {
       encoding: FileSystem.EncodingType.Base64,
     });
 
     console.log("PDF lu, envoi à Gemini pour génération...");
 
-    // 3. Envoyer le PDF à Gemini avec un prompt spécialement conçu pour générer un PDF
     const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
     const result = await model.generateContent([
@@ -66,11 +54,9 @@ export async function processPdfWithGemini(
       " , tentative de sauvegarde PDF..."
     );
 
-    // 4. Essayer de détecter si Gemini a retourné du base64 PDF
     let outputFileName, outputPath;
 
     try {
-      // Vérifier si la réponse ressemble à du code Python pour PDF
       if (
         geminiResponse.includes("reportlab") ||
         geminiResponse.includes("from reportlab") ||
@@ -82,7 +68,6 @@ export async function processPdfWithGemini(
           "Réponse détectée comme code Python pour PDF, exécution dynamique..."
         );
 
-        // Essayer d'exécuter le code Python pour générer le PDF
         try {
           const executedPdfBase64 = await executePythonCode(geminiResponse);
 
@@ -108,7 +93,6 @@ export async function processPdfWithGemini(
             pythonError
           );
 
-          // Fallback: sauvegarder le code Python
           outputFileName = `gemini_pdf_generator_${Date.now()}.py`;
           outputPath = `${FileSystem.documentDirectory}${outputFileName}`;
 
@@ -127,16 +111,13 @@ export async function processPdfWithGemini(
             analysis: geminiResponse,
           };
         }
-      }
-      // Vérifier si la réponse ressemble à du base64 (commence par des caractères typiques du base64 PDF)
-      else if (
+      } else if (
         geminiResponse.match(/^[A-Za-z0-9+/]{100,}[=]{0,2}$/m) ||
-        geminiResponse.includes("JVBERi0") || // Magic number PDF en base64
+        geminiResponse.includes("JVBERi0") ||
         geminiResponse.startsWith("%PDF")
       ) {
         console.log("Réponse détectée comme PDF, sauvegarde en PDF...");
 
-        // Nettoyer le base64 si nécessaire
         const cleanBase64 = geminiResponse.replace(/[^A-Za-z0-9+/=]/g, "");
 
         outputFileName = `gemini_output_${Date.now()}.pdf`;
@@ -162,7 +143,6 @@ export async function processPdfWithGemini(
         "La réponse n'est ni un PDF ni du code Python, sauvegarde en texte..."
       );
 
-      // Fallback: sauvegarder comme texte
       outputFileName = `gemini_response_${Date.now()}.txt`;
       outputPath = `${FileSystem.documentDirectory}${outputFileName}`;
 
@@ -183,7 +163,6 @@ export async function processPdfWithGemini(
     console.error("Erreur traitement PDF avec Gemini:", error);
     throw error;
   } finally {
-    // 5. Nettoyer le fichier temporaire, que le traitement réussisse ou échoue
     if (tempPath) {
       try {
         await FileSystem.deleteAsync(tempPath);
@@ -198,24 +177,17 @@ export async function processPdfWithGemini(
   }
 }
 
-/**
- * Exécute du code Python pour générer un PDF via une API en ligne
- * @param {string} pythonCode - Le code Python à exécuter
- * @returns {Promise<string>} Le PDF généré en base64
- */
 async function executePythonCode(pythonCode) {
   try {
     console.log("Exécution du code Python via API en ligne...");
 
-    // Nettoyer le code Python des balises markdown et espaces
     let cleanedCode = pythonCode
-      .replace(/```python\s*/g, "") // Supprimer ```python
-      .replace(/```\s*/g, "") // Supprimer ```
-      .trim(); // Supprimer espaces début/fin
+      .replace(/```python\s*/g, "")
+      .replace(/```\s*/g, "")
+      .trim();
 
     console.log("Code nettoyé, longueur:", cleanedCode);
 
-    // Modifier le code Python pour qu'il retourne le base64 directement
     const modifiedCode =
       cleanedCode +
       `
@@ -231,13 +203,11 @@ if __name__ == "__main__":
         print(f"ERREUR: {e}")
 `;
 
-    // Vérifier si le code utilise reportlab (qui n'est pas disponible sur Piston)
     if (cleanedCode.includes("reportlab")) {
       console.log(
         "Code utilise reportlab, tentative avec service Python dédié..."
       );
 
-      // Essayer avec un service qui supporte reportlab
       try {
         return await executeWithPyodide(cleanedCode);
       } catch (pyodideError) {
@@ -266,7 +236,6 @@ if __name__ == "__main__":
       }
     }
 
-    // Utiliser l'API Piston pour du code Python simple (sans reportlab)
     const response = await fetch("https://emkc.org/api/v2/piston/execute", {
       method: "POST",
       headers: {
@@ -297,7 +266,6 @@ if __name__ == "__main__":
     if (result.run && result.run.code === 0) {
       const output = result.run.stdout || "";
 
-      // Extraire le base64 du PDF de la sortie
       const startMarker = "PDF_BASE64_START";
       const endMarker = "PDF_BASE64_END";
       const startIndex = output.indexOf(startMarker);
@@ -324,13 +292,9 @@ if __name__ == "__main__":
   }
 }
 
-/**
- * Utilise Pyodide (Python dans le navigateur) pour exécuter le code
- */
 async function executeWithPyodide(pythonCode) {
   console.log("Tentative d'exécution avec Pyodide...");
 
-  // Code wrapper pour exécuter dans Pyodide
   const pyodideWrapper = `
 import js
 from js import fetch
@@ -358,7 +322,6 @@ else:
 `;
 
   try {
-    // Utiliser une API Pyodide hébergée
     const response = await fetch("https://pyodide-notebook.org/api/execute", {
       method: "POST",
       headers: {
@@ -397,13 +360,9 @@ else:
   throw new Error("Pyodide execution failed");
 }
 
-/**
- * Utilise un service cloud qui supporte reportlab
- */
 async function executeWithCloudService(pythonCode) {
   console.log("Tentative avec service cloud...");
 
-  // Préparer le code avec gestion des sorties
   const wrappedCode =
     pythonCode +
     `
@@ -424,7 +383,6 @@ if __name__ == "__main__":
         traceback.print_exc()
 `;
 
-  // Essayer avec CodePen Pen API (ils supportent Python avec reportlab)
   try {
     const response = await fetch("https://codepen.io/api/v1/pens", {
       method: "POST",
@@ -466,7 +424,6 @@ if __name__ == "__main__":
     console.warn("CodePen a échoué:", codepenError);
   }
 
-  // Essayer avec Replit API
   try {
     const response = await fetch("https://replit.com/api/run", {
       method: "POST",
@@ -507,13 +464,9 @@ if __name__ == "__main__":
   throw new Error("Tous les services cloud ont échoué");
 }
 
-/**
- * Service de backup utilisant une API qui supporte définitivement reportlab
- */
 async function executeWithBackupService(pythonCode) {
   console.log("Utilisation du service de backup...");
 
-  // Utiliser RunKit qui supporte l'installation de packages
   try {
     const response = await fetch("https://runkit.com/api/runs", {
       method: "POST",
@@ -544,7 +497,6 @@ python.stderr.on('data', (data) => {
 
     if (response.ok) {
       const result = await response.json();
-      // Traiter la réponse pour extraire le PDF
       if (result.output) {
         const output = result.output;
         const startMarker = "PDF_BASE64_START";
@@ -567,7 +519,6 @@ python.stderr.on('data', (data) => {
     console.warn("RunKit a échoué:", runkitError);
   }
 
-  // En dernier recours, essayer avec Google Colab API
   try {
     const response = await fetch(
       "https://colab.research.google.com/api/execute",
@@ -610,16 +561,11 @@ python.stderr.on('data', (data) => {
   throw new Error("Service de backup a échoué");
 }
 
-/**
- * Génère un PDF simple à partir du texte extrait du code Python
- */
 async function generateSimplePdfFromText(pythonCode) {
   console.log("Génération d'un PDF simple à partir du contenu...");
 
-  // Extraire les textes du code Python pour créer un contenu simple
   const textContent = extractContentFromPython(pythonCode);
 
-  // Créer un HTML simple qui ressemble au formulaire
   const htmlContent = `
 <!DOCTYPE html>
 <html>
@@ -720,7 +666,6 @@ async function generateSimplePdfFromText(pythonCode) {
 </body>
 </html>`;
 
-  // Utiliser une API de conversion HTML vers PDF
   try {
     const response = await fetch(
       "https://api.html-css-to-pdf.com/v1/generate",
@@ -749,14 +694,13 @@ async function generateSimplePdfFromText(pythonCode) {
       const result = await response.json();
       if (result.pdf) {
         console.log("PDF simple généré avec succès");
-        return result.pdf; // Retourne le base64
+        return result.pdf;
       }
     }
   } catch (htmlToPdfError) {
     console.warn("API HTML-to-PDF a échoué:", htmlToPdfError);
   }
 
-  // Dernier recours : créer un "PDF" texte en base64
   console.log("Création d'un fichier texte formaté...");
   const textOnlyContent = `
 DEMANDE À LA MDPH
@@ -784,9 +728,6 @@ ${textContent}
   return btoa(unescape(encodeURIComponent(textOnlyContent)));
 }
 
-/**
- * Extrait le contenu textuel du code Python
- */
 function extractContentFromPython(pythonCode) {
   const strings = pythonCode.match(/"([^"]+)"/g) || [];
   const cleanStrings = strings

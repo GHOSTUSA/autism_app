@@ -9,7 +9,11 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "extra": {
-      "convertApiToken": "demo"
+      "convertApiToken": "demo",
+      "router": {},
+      "eas": {
+        "projectId": "fe80e0a9-5e3e-4f34-925c-07326433ad43"
+      }
     },
     "ios": {
       "supportsTablet": true
@@ -46,6 +50,13 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "owner": "ghostusa",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/fe80e0a9-5e3e-4f34-925c-07326433ad43"
     }
   }
 }
