@@ -1,4 +1,4 @@
-# Tessau_app
+# Tessa_app
 
 to run the project you need to go in the main folder and run **npx expo start --tunnel** with expo go application
 
